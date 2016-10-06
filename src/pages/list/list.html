@@ -1,0 +1,101 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>
+        <span style="font-size:16px;">THE</span>
+        <span style="font-weight:bold;font-size:30px;color:#A60014">KEY</span>
+        <span style="font-weight:bold;font-size:30px;">GUYS</span>
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content overflow-scroll="false" scrollbar-y="false" overflow-scroll="false" >
+  <ion-searchbar (ionInput)="getItems($event)"></ion-searchbar>
+
+
+  <div padding style="display:none">
+    <ion-segment [(ngModel)]="pagesegment">
+      <ion-segment-button value="product">
+        Kittens
+      </ion-segment-button>
+      <ion-segment-button value="brand">
+        Puppies
+      </ion-segment-button>
+    </ion-segment>
+  </div>
+
+  <div [ngSwitch]="pagesegment">
+
+  <ion-card *ngSwitchCase="'product'">
+      <ion-list >
+        <ion-list-header>
+          <h2 style="text-align:center">Product</h2>
+        </ion-list-header>
+        <button ion-item *ngFor="let product of products" (click)="selectProduct($event, product)">
+              {{product.name}}
+              <ion-icon name="arrow-forward" item-right></ion-icon>
+        </button>
+      </ion-list>
+  </ion-card>
+
+<ion-card *ngSwitchCase="'brand'">
+    <ion-list>
+      <ion-list-header>
+        <h2 style="text-align:center">Brand</h2>
+      </ion-list-header>
+      <button ion-item *ngFor="let brand of brands" (click)="selectBrand($event, brand)">
+            {{brand.name}}
+            <ion-icon name="arrow-forward" item-right></ion-icon>
+      </button>
+      <button clear (click)="backTo('product')">
+            <ion-icon name="arrow-back" item-right></ion-icon>
+            Back
+      </button>
+    </ion-list>
+</ion-card>
+
+
+    <ion-list *ngSwitchCase="'model'">
+      <ion-list-header>
+        <h2 style="text-align:center">{{selectedBrand}}</h2>
+      </ion-list-header>
+      <button ion-item *ngFor="let model of models" (click)="selectModel($event, model)">
+        <ion-thumbnail item-left>
+          <img src="{{model.image}}">
+        </ion-thumbnail>
+        <h2>{{model.name}}</h2>
+      </button>
+      <button clear style="" class="text-align:center" (click)="backTo('brand')">
+            <ion-icon name="arrow-back" item-right></ion-icon>
+            Back
+      </button>
+    </ion-list>
+
+    <ion-list *ngSwitchCase="'modeldetail'">
+      <ion-card *ngFor="let modeldetail of modeldetails">
+        <ion-card-content>
+            <ion-card-title>
+              {{modeldetail.name}}
+            </ion-card-title>
+             <p><img src="{{modeldetail.image}}"></p>
+            <p>
+              Product: {{modeldetail.product}} <br>
+              Remote Buttons: {{modeldetail.buttons}} <br>
+              Frequency: {{modeldetail.frequency}} <br>
+              Encryption: {{modeldetail.encryption}} <br>
+              Battery: {{modeldetail.battery}}
+            </p>
+        </ion-card-content>
+      </ion-card>
+
+      <button clear (click)="backTo('model')">
+            <ion-icon name="arrow-back" item-right></ion-icon>
+            Back
+      </button>
+    </ion-list>
+
+  </div>
+
+
+
+
+</ion-content>
